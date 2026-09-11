@@ -3,7 +3,7 @@
 Professional team portfolio for **[team.fivemcodehub.com](https://team.fivemcodehub.com)**.
 Pure HTML, CSS, and vanilla JavaScript — no build step, no dependencies, no server.
 
-[![Deploy](https://github.com/vndel/team-fivemcodehub-portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/vndel/team-fivemcodehub-portfolio/actions/workflows/deploy.yml)
+**Live:** <https://team.fivemcodehub.com> · **Mirror:** <https://vndel.github.io/team-fivemcodehub-portfolio/>
 
 ---
 
@@ -30,7 +30,6 @@ Pure HTML, CSS, and vanilla JavaScript — no build step, no dependencies, no se
 │   └── img/
 │       ├── favicon.svg
 │       └── og.svg              # Social share card
-├── .github/workflows/deploy.yml
 ├── CNAME                       # Custom domain
 ├── .nojekyll                   # Serve files starting with _
 ├── robots.txt
@@ -118,22 +117,28 @@ Then open <http://localhost:8080>.
 
 ## Deployment
 
-Pushing to `main` triggers the workflow in `.github/workflows/deploy.yml`,
-which publishes the repository root to GitHub Pages.
+GitHub Pages builds straight from the `main` branch — **push and it is live.**
+There is no CI workflow to maintain, because the site is already static.
 
-### Custom domain setup
+*Settings → Pages* is configured as:
 
-The `CNAME` file already points at `team.fivemcodehub.com`. To finish, add these
-DNS records at your registrar:
+| Setting | Value              |
+|---------|--------------------|
+| Source  | Deploy from branch |
+| Branch  | `main` / `/` (root)|
 
-| Type  | Name   | Value                 |
-|-------|--------|-----------------------|
-| CNAME | `team` | `vndel.github.io`     |
+### Custom domain
 
-DNS propagation takes anywhere from a few minutes to 24 hours. Once it resolves,
-enable **Enforce HTTPS** under *Settings → Pages*.
+`CNAME` points at `team.fivemcodehub.com`, and the DNS record is already live:
 
-To use the site without a custom domain, delete `CNAME` and it will serve from
+| Type  | Name   | Value             |
+|-------|--------|-------------------|
+| CNAME | `team` | `vndel.github.io` |
+
+Once GitHub finishes issuing the TLS certificate, tick **Enforce HTTPS** in
+*Settings → Pages*.
+
+To drop the custom domain, delete `CNAME` and the site serves from
 `https://vndel.github.io/team-fivemcodehub-portfolio/`.
 
 ---
