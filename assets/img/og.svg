@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8b5cf6"/>
+      <stop offset=".55" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#f472b6"/>
+    </linearGradient>
+    <radialGradient id="o1" cx="0" cy="0" r="1" gradientTransform="translate(180 120) scale(460)">
+      <stop stop-color="#8b5cf6" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="o2" cx="0" cy="0" r="1" gradientTransform="translate(1040 520) scale(420)">
+      <stop stop-color="#22d3ee" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#ffffff" stroke-opacity=".05"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0a0a12"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#o1)"/>
+  <rect width="1200" height="630" fill="url(#o2)"/>
+
+  <g transform="translate(96 150)">
+    <path d="M30 0 0 40l30 40M78 0l30 40-30 40" stroke="url(#brand)" stroke-width="9"
+          stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <text x="96" y="330" font-family="Sora, Arial, sans-serif" font-size="76" font-weight="800" fill="#f4f4f8">
+    FiveM<tspan fill="url(#brand)">Code</tspan>Hub
+  </text>
+  <text x="96" y="394" font-family="Inter, Arial, sans-serif" font-size="30" fill="#a9a9bd">
+    APIs · Backend Systems · FiveM Infrastructure
+  </text>
+  <text x="96" y="470" font-family="JetBrains Mono, monospace" font-size="24" fill="#22d3ee">
+    team.fivemcodehub.com
+  </text>
+</svg>
