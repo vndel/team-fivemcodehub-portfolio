@@ -43,7 +43,7 @@ export const TEAM = [
     name: 'Mohammed Nafees',
     role: 'API & Computer Science Developer',
     age: 21,
-    location: 'Saudi Arabia',
+    location: 'Syria',
     // avatar: 'assets/img/members/nafees.jpg',  // optional — falls back to initials
     initials: 'MN',
     accent: 'violet',
@@ -52,8 +52,8 @@ export const TEAM = [
     stack: ['Node.js', 'Lua', 'MySQL', 'Express', 'Redis', 'Docker'],
     socials: {
       github: 'https://github.com/vndel',
-      discord: '#',
-      email: 'mailto:contact@fivemcodehub.com',
+      discord: '398520151236149249',
+      email: 'mailto:777m@vndel.com',
     },
     lead: true,
   },
