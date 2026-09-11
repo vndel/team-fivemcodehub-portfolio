@@ -38,7 +38,7 @@ export const TEAM = [
     name: { ar: 'يزن البخيت', en: 'Yazan Al-Bakheet' },
     role: { ar: 'مؤسس ومطوّر فايف إم أول', en: 'Founder & Lead FiveM Developer' },
     age: 41,
-    location: { ar: 'السعودية', en: 'Saudi Arabia' },
+    location: { ar: 'الأردن', en: 'Gordan' },
     initials: 'YB',
     accent: 'amber',
     bio: {
