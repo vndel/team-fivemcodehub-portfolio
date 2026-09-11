@@ -36,6 +36,7 @@
   --font-display: 'Sora', system-ui, sans-serif;
   --font-body:    'Inter', system-ui, sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+  --font-ar:      'IBM Plex Sans Arabic', system-ui, sans-serif;
 
   --fs-hero: clamp(2.6rem, 7vw, 5.2rem);
   --fs-h2:   clamp(1.9rem, 4vw, 3rem);
@@ -82,6 +83,25 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
+
+/* Arabic uses one family for both display and body; it reads better and
+   avoids the jarring mix of a Latin display face with Arabic glyphs. */
+[lang="ar"] body,
+[lang="ar"] .section__title,
+[lang="ar"] .hero__title,
+[lang="ar"] .member__name,
+[lang="ar"] .project__title,
+[lang="ar"] .process__title,
+[lang="ar"] .skill-card__title { font-family: var(--font-ar); }
+
+/* Arabic script has taller ascenders/descenders — give it room. */
+[lang="ar"] body { line-height: 1.85; }
+[lang="ar"] .hero__title { line-height: 1.25; letter-spacing: 0; }
+[lang="ar"] .section__title { line-height: 1.3; letter-spacing: 0; }
+
+/* Brand, code, and identifiers stay LTR regardless of page direction. */
+.brand__text, .code-card, .chip, .stat__value,
+.project__year, .code-card__file { direction: ltr; unicode-bidi: isolate; }
 
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
@@ -200,7 +220,7 @@ button { background: none; border: 0; cursor: pointer; }
   width: 16px; height: 2px; border-radius: 2px; background: var(--grad-brand);
 }
 .nav__link--cta {
-  margin-left: .4rem; padding-inline: 1.15rem; color: var(--fg);
+  margin-inline-start: .4rem; padding-inline: 1.15rem; color: var(--fg);
   background: var(--grad-soft); border: 1px solid var(--border-strong);
 }
 .nav__link--cta:hover { border-color: var(--violet); box-shadow: var(--glow); }
@@ -335,11 +355,11 @@ button { background: none; border: 0; cursor: pointer; }
 
 .about__points { margin-top: 1.8rem; display: grid; gap: .8rem; }
 .about__points li {
-  position: relative; padding-left: 1.8rem; color: var(--fg-mute); font-size: .97rem;
+  position: relative; padding-inline-start: 1.8rem; color: var(--fg-mute); font-size: .97rem;
 }
 .about__points strong { color: var(--fg); }
 .about__points li::before {
-  content: ''; position: absolute; left: 0; top: .62em;
+  content: ''; position: absolute; inset-inline-start: 0; top: .62em;
   width: 9px; height: 9px; border-radius: 3px; background: var(--grad-brand);
 }
 
@@ -356,7 +376,7 @@ button { background: none; border: 0; cursor: pointer; }
 .dot { width: 11px; height: 11px; border-radius: 50%; }
 .dot--r { background: #ff5f57; } .dot--y { background: #febc2e; } .dot--g { background: #28c840; }
 .code-card__file {
-  margin-left: auto; font-family: var(--font-mono);
+  margin-inline-start: auto; font-family: var(--font-mono);
   font-size: .76rem; color: var(--fg-dim);
 }
 .code-card__body {
@@ -379,6 +399,9 @@ button { background: none; border: 0; cursor: pointer; }
   content: ''; position: absolute; inset: 0 0 auto 0; height: 3px;
   background: linear-gradient(90deg, var(--accent, var(--violet)), transparent);
   opacity: .85;
+}
+[dir="rtl"] .member::before {
+  background: linear-gradient(270deg, var(--accent, var(--violet)), transparent);
 }
 .member::after {
   content: ''; position: absolute; inset: -40% 50% auto -20%; height: 160px;
@@ -600,7 +623,7 @@ button { background: none; border: 0; cursor: pointer; }
 .footer__copy { width: 100%; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: .82rem; color: var(--fg-dim); }
 
 .to-top {
-  position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 90;
+  position: fixed; inset-inline-end: 1.5rem; bottom: 1.5rem; z-index: 90;
   width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
   background: var(--grad-brand); color: #0a0a12;
   box-shadow: 0 12px 30px -12px rgba(139,92,246,.85);
@@ -659,8 +682,110 @@ button { background: none; border: 0; cursor: pointer; }
   .orb { animation: none; }
 }
 
+/* =============================================================
+   13. BILINGUAL ADDITIONS  (i18n / RTL / Discord identity)
+   ============================================================= */
+
+/* ── language switch ───────────────────────────────────────── */
+.header__tools { display: flex; align-items: center; gap: .6rem; }
+
+.lang-switch {
+  display: flex; align-items: center; gap: 2px; padding: 3px;
+  border: 1px solid var(--border); border-radius: var(--r-full);
+  background: var(--surface);
+}
+.lang-btn {
+  min-width: 34px; padding: .3rem .6rem; border-radius: var(--r-full);
+  font-size: .8rem; font-weight: 600; line-height: 1.6; color: var(--fg-dim);
+  transition: color .25s var(--ease), background .25s var(--ease);
+}
+.lang-btn:hover { color: var(--fg); }
+.lang-btn.is-active { color: #0a0a12; background: var(--grad-brand); }
+.lang-btn[data-lang="ar"] { font-family: var(--font-ar); font-size: .92rem; }
+.lang-btn[data-lang="en"] { font-family: var(--font-body); letter-spacing: .03em; }
+
+/* ── avatar: real image with initials fallback ──────────────── */
+.member__avatar { width: 72px; height: 72px; overflow: visible; }
+.member__avatar img {
+  position: relative; z-index: 1;
+  width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+  border: 2px solid rgba(255,255,255,.14);
+}
+/* The initials sit underneath; the image covers them unless it fails. */
+.member__initials { position: absolute; inset: 0; display: grid; place-items: center; }
+.member__avatar.is-fallback .member__initials { position: static; }
+
+.member__badge { z-index: 2; }
+.member__ident { min-width: 0; }
+
+/* ── copy button (Discord ID) ───────────────────────────────── */
+.social-btn--copy { cursor: pointer; }
+.social-btn--copy.is-copied {
+  color: var(--lime);
+  border-color: color-mix(in srgb, var(--lime) 45%, transparent);
+}
+
+.contact__copy {
+  font-family: var(--font-mono); font-size: .95rem; color: var(--fg-mute);
+  cursor: pointer; display: inline-flex; align-items: center; gap: .4rem;
+  transition: color .25s var(--ease);
+}
+.contact__copy::after {
+  content: '⧉'; font-size: .85em; opacity: .55;
+}
+.contact__copy:hover { color: var(--cyan); }
+
+/* ── toast ─────────────────────────────────────────────────── */
+.toast {
+  position: fixed; z-index: 300;
+  inset-block-end: 1.5rem; inset-inline-start: 50%;
+  translate: -50% 12px;
+  max-width: min(92vw, 420px);
+  padding: .8rem 1.25rem; border-radius: var(--r-full);
+  background: rgba(15,15,26,.96); backdrop-filter: blur(14px);
+  border: 1px solid var(--border-strong); box-shadow: var(--shadow-lg);
+  font-size: .88rem; text-align: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s var(--ease), translate .3s var(--ease);
+}
+.toast.is-visible { opacity: 1; translate: -50% 0; }
+
+/* ── project meta cluster ───────────────────────────────────── */
+.project__meta { display: flex; align-items: center; gap: .5rem; }
+.project__link--muted { color: var(--fg-dim); cursor: default; }
+
+/* ── RTL corrections ────────────────────────────────────────── */
+
+/* Directional arrows must point the other way in RTL. */
+[dir="rtl"] .btn__arrow, [dir="rtl"] .btn__send { scale: -1 1; }
+
+/* The typewriter caret belongs on the trailing edge. */
+[dir="rtl"] .hero__type { flex-direction: row; }
+
+/* Chips and stacks read right-to-left. */
+[dir="rtl"] .chips, [dir="rtl"] .project__stack { justify-content: flex-start; }
+
+/* Keep the back-to-top arrow upright (it is vertical, not directional). */
+[dir="rtl"] .to-top svg { scale: 1 1; }
+
+/* Mobile nav slides from the correct edge. */
+[dir="rtl"] .nav__link.is-active::after { inset-inline-start: 50%; }
+
+/* Latin-only strings inside Arabic copy keep their own direction. */
+[dir="rtl"] .member__meta, [dir="rtl"] .skill__row { direction: rtl; }
+[dir="rtl"] .skill__pct { direction: ltr; unicode-bidi: isolate; }
+
+/* Progress bar fills from the correct side. */
+[dir="rtl"] .skill__fill { background: linear-gradient(270deg, var(--accent, var(--violet)), var(--cyan)); }
+[dir="rtl"] .scroll-progress span { margin-inline-start: auto; }
+
+@media (max-width: 900px) {
+  .header__tools { gap: .45rem; }
+  .lang-btn { min-width: 30px; padding: .25rem .5rem; font-size: .75rem; }
+}
+
 /* ─────────────────────────── PRINT ─────────────────────────── */
 @media print {
-  .bg-mesh, .bg-grid, .scroll-progress, .site-header, .to-top, .scroll-hint, .form { display: none; }
+  .bg-mesh, .bg-grid, .scroll-progress, .site-header, .to-top, .scroll-hint, .form, .toast, .lang-switch { display: none; }
   body { background: #fff; color: #000; }
 }

@@ -3,12 +3,15 @@
 Professional team portfolio for **[team.fivemcodehub.com](https://team.fivemcodehub.com)**.
 Pure HTML, CSS, and vanilla JavaScript — no build step, no dependencies, no server.
 
+**Bilingual: Arabic (default, RTL) and English (LTR).**
+
 **Live:** <https://team.fivemcodehub.com> · **Mirror:** <https://vndel.github.io/team-fivemcodehub-portfolio/>
 
 ---
 
 ## Features
 
+- **Bilingual** — Arabic-first with full RTL support, switchable to English. The choice persists in `localStorage`, and Arabic renders Arabic-Indic numerals (٢٢+, ٩٩.٩%).
 - **Data-driven** — all content lives in one file (`assets/js/data.js`). Adding a team member or project never requires touching HTML.
 - **Responsive** — fluid typography and layouts from 320 px to ultrawide.
 - **Accessible** — semantic landmarks, keyboard navigation, focus-visible rings, `aria-live` regions, and full `prefers-reduced-motion` support.
@@ -26,6 +29,7 @@ Pure HTML, CSS, and vanilla JavaScript — no build step, no dependencies, no se
 │   ├── css/styles.css          # Design tokens + all components
 │   ├── js/
 │   │   ├── data.js             # ← EDIT THIS to change content
+│   │   ├── i18n.js             # ← EDIT THIS to change UI wording
 │   │   └── main.js             # Rendering, animation, validation
 │   └── img/
 │       ├── favicon.svg
@@ -42,27 +46,35 @@ Pure HTML, CSS, and vanilla JavaScript — no build step, no dependencies, no se
 
 Everything is in **`assets/js/data.js`**.
 
+Any text a visitor reads is written as a `{ ar, en }` pair.
+
 ### Add a team member
 
 ```js
 export const TEAM = [
   // ...existing members
   {
-    name: 'Full Name',
-    role: 'Backend Developer',
+    name: { ar: 'الاسم الكامل', en: 'Full Name' },
+    role: { ar: 'مطوّر أنظمة خلفية', en: 'Backend Developer' },
     age: 22,
-    location: 'Country',
+    location: { ar: 'الدولة', en: 'Country' },
+    avatar: 'https://cdn.discordapp.com/avatars/<id>/<hash>.png?size=256', // optional
     initials: 'FN',
     accent: 'cyan',                  // violet | cyan | pink | amber | lime
-    bio: 'Short professional bio.',
-    focus: ['Area 1', 'Area 2'],
+    bio: { ar: 'نبذة مختصرة.', en: 'Short professional bio.' },
+    focus: { ar: ['مجال ١'], en: ['Area 1'] },
     stack: ['Node.js', 'MySQL'],
-    socials: { github: '#', discord: '#', email: 'mailto:you@example.com' },
+    socials: {
+      github: 'https://github.com/username',
+      discord: '398520151236149249',   // user ID — click copies it
+      email: 'mailto:you@example.com',
+    },
   },
 ];
 ```
 
 The card, colour theming, and scroll animation are generated automatically.
+`avatar` falls back to `initials` if the image fails to load.
 
 ### Add a project
 
@@ -70,19 +82,29 @@ The card, colour theming, and scroll animation are generated automatically.
 export const PROJECTS = [
   // ...existing projects
   {
-    title: 'Project Name',
+    title: { ar: 'اسم المشروع', en: 'Project Name' },
     tags: ['API', 'Security'],       // must match PROJECT_FILTERS
     accent: 'violet',
     year: '2026',
-    summary: 'What it does and why it matters.',
+    summary: { ar: 'ماذا يفعل ولماذا يهم.', en: 'What it does and why it matters.' },
     stack: ['Node.js', 'Redis'],
-    links: { repo: 'https://github.com/...', demo: null },
+    links: { repo: 'https://github.com/...' },   // null renders "Private repository"
     featured: true,                  // optional — adds a "Featured" badge
   },
 ];
 ```
 
-To add a new filter button, append the tag name to `PROJECT_FILTERS`.
+To add a new filter, append the tag to `PROJECT_FILTERS` in `data.js`
+**and** add its label to `FILTER_LABELS` in `i18n.js`.
+
+### Change UI wording
+
+Interface strings (nav, buttons, form errors) live in `assets/js/i18n.js`
+under `T.ar` and `T.en`. Add a key to both, then reference it in the HTML:
+
+```html
+<span data-i18n="hero.badge">متاحون لمشاريع جديدة</span>
+```
 
 ### Change the colour identity
 

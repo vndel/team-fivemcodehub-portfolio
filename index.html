@@ -1,26 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>FiveM Code Hub — Team Portfolio</title>
+<title>فايف إم كود هَب — بورتفوليو الفريق</title>
 
-<meta name="description" content="FiveM Code Hub — a collective of developers building high-performance APIs, backend systems, and FiveM infrastructure." />
+<meta name="description" content="فايف إم كود هَب — فريق مطوّرين يبني واجهات برمجية عالية الأداء وأنظمة خلفية وبنية تحتية لخوادم FiveM." />
 <meta name="theme-color" content="#0a0a12" />
 <link rel="canonical" href="https://team.fivemcodehub.com/" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://team.fivemcodehub.com/" />
-<meta property="og:title" content="FiveM Code Hub — Team Portfolio" />
-<meta property="og:description" content="APIs, backend systems, and FiveM infrastructure built to production standards." />
+<meta property="og:title" content="فايف إم كود هَب — بورتفوليو الفريق" />
+<meta property="og:description" content="واجهات برمجية وأنظمة خلفية وبنية تحتية لخوادم FiveM، مبنية بمعايير الإنتاج." />
 <meta property="og:image" content="https://team.fivemcodehub.com/assets/img/og.svg" />
+<meta property="og:locale" content="ar_SA" />
+<meta property="og:locale:alternate" content="en_US" />
 <meta name="twitter:card" content="summary_large_image" />
 
 <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://cdn.discordapp.com" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/styles.css" />
 
 <script type="application/ld+json">
@@ -33,14 +36,16 @@
   "member": [{
     "@type": "Person",
     "name": "Mohammed Nafees",
-    "jobTitle": "API & Computer Science Developer"
+    "jobTitle": "API & Computer Science Developer",
+    "nationality": "Syria",
+    "sameAs": ["https://github.com/vndel"]
   }]
 }
 </script>
 </head>
 
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">تخطَّ إلى المحتوى</a>
 
 <!-- ambient background -->
 <div class="bg-mesh" aria-hidden="true">
@@ -54,7 +59,7 @@
 <!-- ─────────────────────────── HEADER ─────────────────────────── -->
 <header class="site-header" id="header">
   <div class="wrap header__inner">
-    <a href="#top" class="brand" aria-label="FiveM Code Hub home">
+    <a href="#top" class="brand" aria-label="FiveM Code Hub">
       <span class="brand__mark" aria-hidden="true">
         <svg viewBox="0 0 32 32" fill="none"><path d="M12 4 4 16l8 12M20 4l8 12-8 12" stroke="url(#bg1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="bg1" x1="4" y1="4" x2="28" y2="28"><stop stop-color="#8b5cf6"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs></svg>
       </span>
@@ -62,17 +67,25 @@
     </a>
 
     <nav class="nav" id="nav" aria-label="Primary">
-      <a href="#about"    class="nav__link">About</a>
-      <a href="#team"     class="nav__link">Team</a>
-      <a href="#skills"   class="nav__link">Skills</a>
-      <a href="#projects" class="nav__link">Projects</a>
-      <a href="#process"  class="nav__link">Process</a>
-      <a href="#contact"  class="nav__link nav__link--cta">Contact</a>
+      <a href="#about"    class="nav__link" data-i18n="nav.about">من نحن</a>
+      <a href="#team"     class="nav__link" data-i18n="nav.team">الفريق</a>
+      <a href="#skills"   class="nav__link" data-i18n="nav.skills">المهارات</a>
+      <a href="#projects" class="nav__link" data-i18n="nav.projects">الأعمال</a>
+      <a href="#process"  class="nav__link" data-i18n="nav.process">منهجية العمل</a>
+      <a href="#contact"  class="nav__link nav__link--cta" data-i18n="nav.contact">تواصل</a>
     </nav>
 
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="header__tools">
+      <div class="lang-switch" role="group" data-i18n-aria="a11y.langSwitch" aria-label="تغيير اللغة">
+        <button type="button" class="lang-btn" data-lang="ar" aria-pressed="true">ع</button>
+        <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" data-i18n-aria="nav.open"
+              aria-label="فتح القائمة" aria-expanded="false" aria-controls="nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -83,31 +96,31 @@
     <div class="wrap hero__inner">
       <p class="hero__eyebrow reveal">
         <span class="pulse-dot" aria-hidden="true"></span>
-        Available for new projects
+        <span data-i18n="hero.badge">متاحون لمشاريع جديدة</span>
       </p>
 
       <h1 class="hero__title reveal" data-delay="1">
-        We build the
-        <span class="grad-text">systems</span>
-        behind the servers.
+        <span data-i18n="hero.title.1">نبني</span>
+        <span class="grad-text" data-i18n="hero.title.grad">الأنظمة</span>
+        <span data-i18n="hero.title.2">التي تقف خلف الخوادم.</span>
       </h1>
 
       <p class="hero__type reveal" data-delay="2">
-        <span class="hero__type-label">We are</span>
+        <span class="hero__type-label" data-i18n="hero.weAre">نحن</span>
         <span class="typewriter" id="typewriter" aria-live="polite"></span><span class="caret" aria-hidden="true"></span>
       </p>
 
-      <p class="hero__lead reveal" data-delay="3">
-        FiveM Code Hub is a small, senior-minded team shipping production APIs,
-        hardened backends, and game-server infrastructure that actually holds up under load.
+      <p class="hero__lead reveal" data-delay="3" data-i18n="hero.lead">
+        فايف إم كود هَب فريق صغير بعقلية احترافية، نطلق واجهات برمجية تعمل فعلياً في الإنتاج،
+        وأنظمة خلفية محصّنة، وبنية تحتية لخوادم الألعاب تصمد تحت الضغط.
       </p>
 
       <div class="hero__actions reveal" data-delay="4">
         <a href="#projects" class="btn btn--primary">
-          View our work
-          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="hero.cta.work">شاهد أعمالنا</span>
+          <svg class="btn__arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#contact" class="btn btn--ghost">Start a project</a>
+        <a href="#contact" class="btn btn--ghost" data-i18n="hero.cta.start">ابدأ مشروعك</a>
       </div>
 
       <dl class="stats reveal" data-delay="5" id="stats"></dl>
@@ -120,33 +133,24 @@
   <section class="section" id="about">
     <div class="wrap">
       <header class="section__head reveal">
-        <p class="section__kicker">01 — About</p>
-        <h2 class="section__title">Engineering, not improvisation.</h2>
+        <p class="section__kicker" data-i18n="about.kicker">٠١ — من نحن</p>
+        <h2 class="section__title" data-i18n="about.title">هندسة، لا ارتجال.</h2>
       </header>
 
       <div class="about">
         <div class="about__text reveal" data-delay="1">
-          <p>
-            We started FiveM Code Hub because too much of this ecosystem ships code that
-            works on a test server and collapses on a real one. Our answer is boring in the
-            best way: designed schemas, documented endpoints, real error handling, and
-            monitoring from day one.
-          </p>
-          <p>
-            Every project goes through the same path — discovery, architecture, incremental
-            build, then hardening. No black boxes, no abandoned handovers. You get readable
-            code and the documentation to own it.
-          </p>
+          <p data-i18n="about.p1"></p>
+          <p data-i18n="about.p2"></p>
 
           <ul class="about__points">
-            <li><strong>Production-first.</strong> Built for load, logged for debugging.</li>
-            <li><strong>Documented.</strong> Every endpoint and table explained.</li>
-            <li><strong>Owned by you.</strong> Clean source, no vendor lock-in.</li>
+            <li><strong data-i18n="about.point1.b"></strong> <span data-i18n="about.point1.t"></span></li>
+            <li><strong data-i18n="about.point2.b"></strong> <span data-i18n="about.point2.t"></span></li>
+            <li><strong data-i18n="about.point3.b"></strong> <span data-i18n="about.point3.t"></span></li>
           </ul>
         </div>
 
         <aside class="about__card reveal" data-delay="2" aria-label="Code sample">
-          <div class="code-card">
+          <div class="code-card" dir="ltr">
             <div class="code-card__bar">
               <span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span>
               <span class="code-card__file">core-api / health.js</span>
@@ -174,9 +178,9 @@
   <section class="section section--alt" id="team">
     <div class="wrap">
       <header class="section__head reveal">
-        <p class="section__kicker">02 — Team</p>
-        <h2 class="section__title">The people writing the code.</h2>
-        <p class="section__sub">Small by design. Every member owns what they ship.</p>
+        <p class="section__kicker" data-i18n="team.kicker">٠٢ — الفريق</p>
+        <h2 class="section__title" data-i18n="team.title">من يكتب الكود فعلاً.</h2>
+        <p class="section__sub" data-i18n="team.sub">صغير عن قصد. كل عضو مسؤول عمّا يطلقه.</p>
       </header>
 
       <div class="team-grid" id="teamGrid"></div>
@@ -187,9 +191,9 @@
   <section class="section" id="skills">
     <div class="wrap">
       <header class="section__head reveal">
-        <p class="section__kicker">03 — Skills</p>
-        <h2 class="section__title">What we actually use.</h2>
-        <p class="section__sub">Tools we run in production — not a list of things we read about.</p>
+        <p class="section__kicker" data-i18n="skills.kicker">٠٣ — المهارات</p>
+        <h2 class="section__title" data-i18n="skills.title">ما نستخدمه فعلياً.</h2>
+        <p class="section__sub" data-i18n="skills.sub">أدوات نشغّلها في الإنتاج.</p>
       </header>
 
       <div class="skills-grid" id="skillsGrid"></div>
@@ -200,12 +204,12 @@
   <section class="section section--alt" id="projects">
     <div class="wrap">
       <header class="section__head reveal">
-        <p class="section__kicker">04 — Projects</p>
-        <h2 class="section__title">Selected work.</h2>
-        <p class="section__sub">A sample of systems currently running in production.</p>
+        <p class="section__kicker" data-i18n="projects.kicker">٠٤ — الأعمال</p>
+        <h2 class="section__title" data-i18n="projects.title">أعمال مختارة.</h2>
+        <p class="section__sub" data-i18n="projects.sub">نماذج من أنظمة تعمل حالياً في بيئة الإنتاج.</p>
       </header>
 
-      <div class="filters reveal" id="filters" role="tablist" aria-label="Project filters"></div>
+      <div class="filters reveal" id="filters" role="tablist"></div>
       <div class="projects-grid" id="projectsGrid"></div>
     </div>
   </section>
@@ -214,8 +218,8 @@
   <section class="section" id="process">
     <div class="wrap">
       <header class="section__head reveal">
-        <p class="section__kicker">05 — Process</p>
-        <h2 class="section__title">How a project runs.</h2>
+        <p class="section__kicker" data-i18n="process.kicker">٠٥ — منهجية العمل</p>
+        <h2 class="section__title" data-i18n="process.title">كيف يسير المشروع.</h2>
       </header>
       <ol class="process" id="processList"></ol>
     </div>
@@ -226,63 +230,60 @@
     <div class="wrap">
       <div class="contact">
         <div class="contact__intro reveal">
-          <p class="section__kicker">06 — Contact</p>
-          <h2 class="section__title">Have something to build?</h2>
-          <p class="section__sub">
-            Tell us the problem, the deadline, and the constraints. You'll get an honest
-            answer on scope and timeline — usually within 24 hours.
-          </p>
+          <p class="section__kicker" data-i18n="contact.kicker">٠٦ — تواصل</p>
+          <h2 class="section__title" data-i18n="contact.title">عندك شيء تبي تبنيه؟</h2>
+          <p class="section__sub" data-i18n="contact.sub"></p>
 
           <ul class="contact__list">
             <li>
               <span class="contact__ico" aria-hidden="true">
                 <svg viewBox="0 0 20 20" fill="none"><rect x="2.5" y="4" width="15" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="m3 6 7 5 7-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
               </span>
-              <a href="mailto:contact@fivemcodehub.com">contact@fivemcodehub.com</a>
+              <a href="mailto:777m@vndel.com" dir="ltr">777m@vndel.com</a>
             </li>
             <li>
               <span class="contact__ico" aria-hidden="true">
                 <svg viewBox="0 0 20 20" fill="none"><path d="M10 1.7a8.3 8.3 0 0 0-2.6 16.2c.4.07.55-.18.55-.4v-1.5c-2.3.5-2.8-1.1-2.8-1.1-.38-.97-.93-1.23-.93-1.23-.76-.52.06-.5.06-.5.84.06 1.28.86 1.28.86.75 1.28 1.96.91 2.44.7.08-.55.3-.92.53-1.13-1.83-.2-3.75-.91-3.75-4.07 0-.9.32-1.63.85-2.2-.09-.21-.37-1.05.08-2.18 0 0 .7-.22 2.28.84a7.9 7.9 0 0 1 4.15 0c1.58-1.06 2.27-.84 2.27-.84.46 1.13.17 1.97.09 2.18.53.57.85 1.3.85 2.2 0 3.17-1.93 3.87-3.77 4.07.3.25.56.75.56 1.52v2.26c0 .22.15.48.56.4A8.3 8.3 0 0 0 10 1.7Z" fill="currentColor"/></svg>
               </span>
-              <a href="https://github.com/vndel" target="_blank" rel="noopener">github.com/vndel</a>
+              <a href="https://github.com/vndel" target="_blank" rel="noopener" dir="ltr">github.com/vndel</a>
             </li>
             <li>
               <span class="contact__ico" aria-hidden="true">
-                <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.6"/><path d="M2 10h16M10 2a13 13 0 0 1 0 16 13 13 0 0 1 0-16Z" stroke="currentColor" stroke-width="1.6"/></svg>
+                <svg viewBox="0 0 20 20" fill="none"><path d="M15.6 5.1A13 13 0 0 0 12.4 4l-.2.4a12 12 0 0 1 2.8 1.1 11 11 0 0 0-9.9 0A12 12 0 0 1 7.9 4.4L7.6 4a13 13 0 0 0-3.2 1.1C2.3 8.3 1.8 11.4 2 14.4a13 13 0 0 0 4 2 9.6 9.6 0 0 0 .8-1.4 8.4 8.4 0 0 1-1.3-.6l.3-.3a9.3 9.3 0 0 0 8 0l.3.3a8.4 8.4 0 0 1-1.3.6c.2.5.5 1 .8 1.4a13 13 0 0 0 4-2c.3-3.5-.5-6.6-2-9.3ZM7.4 12.6c-.8 0-1.4-.7-1.4-1.6s.6-1.6 1.4-1.6 1.4.7 1.4 1.6-.6 1.6-1.4 1.6Zm5.2 0c-.8 0-1.4-.7-1.4-1.6s.6-1.6 1.4-1.6 1.4.7 1.4 1.6-.6 1.6-1.4 1.6Z" fill="currentColor"/></svg>
               </span>
-              <a href="https://team.fivemcodehub.com">team.fivemcodehub.com</a>
+              <button type="button" class="contact__copy" data-copy="398520151236149249" dir="ltr">777m</button>
             </li>
           </ul>
         </div>
 
         <form class="form reveal" data-delay="1" id="contactForm" novalidate>
           <div class="field">
-            <label for="f-name">Name</label>
+            <label for="f-name" data-i18n="form.name">الاسم</label>
             <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="e-name" />
             <p class="field__err" id="e-name" role="alert"></p>
           </div>
 
           <div class="field">
-            <label for="f-email">Email</label>
-            <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email" />
+            <label for="f-email" data-i18n="form.email">البريد الإلكتروني</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email" dir="ltr" />
             <p class="field__err" id="e-email" role="alert"></p>
           </div>
 
           <div class="field">
-            <label for="f-subject">Subject</label>
+            <label for="f-subject" data-i18n="form.subject">الموضوع</label>
             <input id="f-subject" name="subject" type="text" required aria-describedby="e-subject" />
             <p class="field__err" id="e-subject" role="alert"></p>
           </div>
 
           <div class="field">
-            <label for="f-msg">Project details</label>
+            <label for="f-msg" data-i18n="form.message">تفاصيل المشروع</label>
             <textarea id="f-msg" name="message" rows="5" required aria-describedby="e-msg"></textarea>
             <p class="field__err" id="e-msg" role="alert"></p>
           </div>
 
           <button type="submit" class="btn btn--primary btn--block">
-            Send message
-            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m3 10 14-6-6 14-2-6-6-2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <span data-i18n="form.send">إرسال الرسالة</span>
+            <svg class="btn__send" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m3 10 14-6-6 14-2-6-6-2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
           </button>
 
           <p class="form__note" id="formNote" role="status"></p>
@@ -297,22 +298,24 @@
   <div class="wrap footer__inner">
     <div class="footer__brand">
       <span class="brand__text">FiveM<span class="brand__accent">Code</span>Hub</span>
-      <p>Systems built to stay up.</p>
+      <p data-i18n="footer.tag">أنظمة مبنية لتبقى تعمل.</p>
     </div>
 
     <nav class="footer__nav" aria-label="Footer">
-      <a href="#about">About</a>
-      <a href="#team">Team</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+      <a href="#about"    data-i18n="nav.about">من نحن</a>
+      <a href="#team"     data-i18n="nav.team">الفريق</a>
+      <a href="#skills"   data-i18n="nav.skills">المهارات</a>
+      <a href="#projects" data-i18n="nav.projects">الأعمال</a>
+      <a href="#contact"  data-i18n="nav.contact">تواصل</a>
     </nav>
 
-    <p class="footer__copy">© <span id="year"></span> FiveM Code Hub. All rights reserved.</p>
+    <p class="footer__copy">
+      © <span id="year"></span> FiveM Code Hub. <span data-i18n="footer.rights">جميع الحقوق محفوظة.</span>
+    </p>
   </div>
 </footer>
 
-<button class="to-top" id="toTop" aria-label="Back to top">
+<button class="to-top" id="toTop" data-i18n-aria="a11y.toTop" aria-label="العودة للأعلى">
   <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 16V4M5 9l5-5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
 
