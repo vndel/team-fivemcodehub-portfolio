@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-09-11T14:34:19.473Z",
+  "users": {
+    "398520151236149249": {
+      "id": "398520151236149249",
+      "username": "777m",
+      "globalName": "!                           M7MD",
+      "avatar": "https://cdn.discordapp.com/avatars/398520151236149249/eae453267f7cca2cc6395d6b01e5a940.png?size=256",
+      "avatarStatic": "https://cdn.discordapp.com/avatars/398520151236149249/eae453267f7cca2cc6395d6b01e5a940.png?size=256",
+      "banner": "https://cdn.discordapp.com/banners/398520151236149249/fbd69a169e4a28413126bb328193df7c.png?size=600",
+      "accent": "#454b4b",
+      "accentIsLight": false,
+      "accentUsable": false,
+      "decoration": "https://cdn.discordapp.com/avatar-decoration-presets/a_8545255e173f3b6eef634fcb6d34d9c6.png?size=160",
+      "tag": "BMC",
+      "tagBadge": "https://cdn.discordapp.com/clan-badges/211543198651121664/cc2ede17bd1e80a0b9ee941560ce2c27.png?size=32",
+      "profile": "https://discord.com/users/398520151236149249"
+    },
+    "548192595403210752": {
+      "id": "548192595403210752",
+      "username": "ybv10",
+      "globalName": "YBv10 | مسافر",
+      "avatar": "https://cdn.discordapp.com/avatars/548192595403210752/c56f833d7c5cace750fefb0f5c66c091.png?size=256",
+      "avatarStatic": "https://cdn.discordapp.com/avatars/548192595403210752/c56f833d7c5cace750fefb0f5c66c091.png?size=256",
+      "banner": "https://cdn.discordapp.com/banners/548192595403210752/c987f3ac59a646ce24ed19b8383fb7e1.png?size=600",
+      "accent": "#161616",
+      "accentIsLight": false,
+      "accentUsable": false,
+      "decoration": "https://cdn.discordapp.com/avatar-decoration-presets/a_3d746dcbed0564c2f7200b3c1bf171eb.png?size=160",
+      "tag": "RAS",
+      "tagBadge": "https://cdn.discordapp.com/clan-badges/955424076510404638/2d8bea68b3152b52858942d2bc854cc7.png?size=32",
+      "profile": "https://discord.com/users/548192595403210752"
+    }
+  },
+  "guild": {
+    "id": "752081278001741864",
+    "name": "CodeHub Studio",
+    "description": "CodeHub هو مجتمع متخصّص في مجال FiveM، يقدّم حلولًا متكاملة لأصحاب السيرفرات والمطوّرين.نوفّر خدمات البرمجة، تصميم المابات، المركبات ثلاثية الأبعاد، والتصميم الجرافيكي بمعايير احترافية عالية.نهدف إلى مساعدة أصحاب السيرفرات على تنفيذ أفكارهم وتطوير مشاريعهم بأفضل جودة ممكنة، مع التزام كامل بالدقة،",
+    "icon": "https://cdn.discordapp.com/icons/752081278001741864/a_33062390f572732c9fb8fa088c3661ed.gif?size=256",
+    "banner": "https://cdn.discordapp.com/banners/752081278001741864/9ff3ca9e6f74a7c4de995754fb99893d.png?size=600",
+    "splash": "https://cdn.discordapp.com/splashes/752081278001741864/fd65aa6695456b66f4e3c686a0fb030c.png?size=600",
+    "members": 5284,
+    "online": 1163,
+    "invite": "https://discord.gg/5cc"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "team-fivemcodehub-portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Bilingual team portfolio for team.fivemcodehub.com",
+  "type": "module",
+  "scripts": {
+    "seed": "node scripts/seed-discord.mjs",
+    "dev": "python3 -m http.server 8080"
+  },
+  "engines": { "node": ">=18" }
+}

@@ -4,8 +4,10 @@
  * =============================================================
  *  كل نص قابل للترجمة يُكتب ككائن: { ar: '…', en: '…' }
  *
- *  لإضافة عضو جديد: أضف كائناً جديداً داخل مصفوفة TEAM.
- *  لإضافة مشروع:    أضف كائناً جديداً داخل مصفوفة PROJECTS.
+ *  الصور والبانرات والألوان تُجلب تلقائياً من ديسكورد:
+ *      1. ضع معرّف العضو في socials.discord
+ *      2. شغّل:  npm run seed
+ *      3. يُحدَّث assets/data/discord.json تلقائياً
  * =============================================================
  */
 
@@ -13,48 +15,67 @@ export const SITE = {
   name: 'FiveM Code Hub',
   domain: 'team.fivemcodehub.com',
   email: '777m@vndel.com',
+  discordInvite: 'https://discord.gg/5cc',
 };
 
 /** الأدوار التي تُكتب تلقائياً في الواجهة الرئيسية */
 export const HERO_ROLES = {
-  ar: ['مطوّرو واجهات برمجية', 'مهندسو أنظمة خلفية', 'مختصّو فايف إم', 'معماريو أنظمة'],
-  en: ['API Developers', 'Backend Engineers', 'FiveM Specialists', 'System Architects'],
+  ar: ['مطوّرو فايف إم', 'مهندسو أنظمة خلفية', 'مبرمجو Lua', 'صنّاع أدوات ديسكورد'],
+  en: ['FiveM Developers', 'Backend Engineers', 'Lua Programmers', 'Discord Tooling Builders'],
 };
 
 export const STATS = [
-  { value: 22, suffix: '+', label: { ar: 'مشروع منجز', en: 'Projects Shipped' } },
-  { value: 12, suffix: '+', label: { ar: 'نظام في الإنتاج', en: 'Systems in Production' } },
+  { value: 40, suffix: '+', label: { ar: 'سكربت منشور', en: 'Scripts Released' } },
+  { value: 5284, suffix: '+', label: { ar: 'عضو في المجتمع', en: 'Community Members' } },
   { value: 99, suffix: '.9%', label: { ar: 'نسبة التشغيل', en: 'Uptime Delivered' } },
-  { value: 6,  suffix: '+', label: { ar: 'سنوات خبرة', en: 'Years of Experience' } },
+  { value: 6, suffix: '+', label: { ar: 'سنوات خبرة', en: 'Years of Experience' } },
 ];
 
 /* ============================== TEAM ============================== */
 
 export const TEAM = [
   {
+    name: { ar: 'يزن البخيت', en: 'Yazan Al-Bakheet' },
+    role: { ar: 'مؤسس ومطوّر فايف إم أول', en: 'Founder & Lead FiveM Developer' },
+    age: 41,
+    location: { ar: 'السعودية', en: 'Saudi Arabia' },
+    initials: 'YB',
+    accent: 'amber',
+    bio: {
+      ar: 'مالك CodeHub Studio وصاحب الخبرة الأطول في الفريق. متخصّص في برمجة Lua وبناء أنظمة فايف إم المعقّدة من الصفر — من أنظمة السرقات والعقارات إلى المهام والمكافآت. أطلق عشرات السكربتات التي تعمل اليوم على مئات السيرفرات.',
+      en: 'Owner of CodeHub Studio and the most experienced member of the team. Specialises in Lua and building complex FiveM systems from scratch — robbery, real-estate, missions, and reward systems. Has shipped dozens of scripts now running on hundreds of servers.',
+    },
+    focus: {
+      ar: ['برمجة Lua المتقدّمة', 'أنظمة فايف إم المتكاملة', 'تصميم آليات اللعب'],
+      en: ['Advanced Lua', 'End-to-End FiveM Systems', 'Gameplay Mechanics'],
+    },
+    stack: ['Lua', 'FiveM', 'ESX', 'MySQL', 'JavaScript', 'Server Infrastructure'],
+    socials: {
+      discord: '548192595403210752',
+    },
+    lead: true,
+  },
+  {
     name: { ar: 'محمد نفيس', en: 'Mohammed Nafees' },
     role: { ar: 'مطوّر واجهات برمجية وعلوم حاسب', en: 'API & Computer Science Developer' },
     age: 21,
     location: { ar: 'سوريا', en: 'Syria' },
-    // صورة ديسكورد — تُجلب مباشرة من CDN الخاص بديسكورد
-    avatar: 'https://cdn.discordapp.com/avatars/398520151236149249/eae453267f7cca2cc6395d6b01e5a940.png?size=256',
     initials: 'MN',
     accent: 'violet',
     bio: {
-      ar: 'مؤسّس فايف إم كود هَب. متخصّص في تصميم الواجهات البرمجية والأنظمة الخلفية المحصّنة وأدوات المطوّرين. يحوّل المتطلبات المعقّدة إلى خدمات نظيفة وموثّقة وجاهزة للإنتاج.',
-      en: 'Founder of FiveM Code Hub. Focused on API architecture, secure backend systems, and developer tooling. Turns complex requirements into clean, documented, production-ready services.',
+      ar: 'مسؤول الأنظمة الخلفية وبوتات ديسكورد في الفريق. يبني الواجهات البرمجية وأنظمة التراخيص ولوحات التحكم التي تربط السيرفرات بديسكورد. صاحب نظام القطاعات CoreMind.',
+      en: 'Owns the backend and Discord tooling side of the team. Builds the APIs, licensing systems, and control panels that connect game servers to Discord. Author of the CoreMind sector-management system.',
     },
     focus: {
-      ar: ['واجهات REST والزمن الحقيقي', 'معمارية الأنظمة الخلفية', 'أنظمة مكافحة الغش'],
-      en: ['REST & Realtime APIs', 'Backend Architecture', 'Anti-Cheat Systems'],
+      ar: ['واجهات REST والزمن الحقيقي', 'بوتات ديسكورد', 'أنظمة التراخيص والحماية'],
+      en: ['REST & Realtime APIs', 'Discord Bots', 'Licensing & Security Systems'],
     },
-    stack: ['JavaScript', 'TypeScript', 'Node.js', 'Lua', 'MySQL', 'Express', 'EJS', 'Docker'],
+    stack: ['JavaScript', 'TypeScript', 'Node.js', 'Discord.js', 'MySQL', 'Express', 'EJS', 'Docker'],
     socials: {
       github: 'https://github.com/vndel',
       discord: '398520151236149249',
       email: 'mailto:777m@vndel.com',
     },
-    lead: true,
   },
   /*
    * ── قالب لإضافة عضو جديد ─────────────────────────────────────
@@ -67,8 +88,8 @@ export const TEAM = [
    *   accent: 'cyan',            // violet | cyan | pink | amber | lime
    *   bio: { ar: '…', en: '…' },
    *   focus: { ar: ['…'], en: ['…'] },
-   *   stack: ['Node.js'],
-   *   socials: { github: '#', discord: 'USER_ID', email: 'mailto:' },
+   *   stack: ['Lua'],
+   *   socials: { discord: 'USER_ID' },   // ثم شغّل: npm run seed
    * },
    */
 ];
@@ -77,7 +98,18 @@ export const TEAM = [
 
 export const SKILLS = [
   {
-    category: { ar: 'الأنظمة الخلفية والواجهات البرمجية', en: 'Backend & APIs' },
+    category: { ar: 'فايف إم و Lua', en: 'FiveM & Lua' },
+    icon: 'gamepad',
+    accent: 'amber',
+    items: [
+      { name: { ar: 'برمجة Lua', en: 'Lua Scripting' }, level: 95 },
+      { name: { ar: 'إطار ESX', en: 'ESX Framework' }, level: 92 },
+      { name: { ar: 'تحسين أداء الموارد', en: 'Resource Optimization' }, level: 88 },
+      { name: { ar: 'بنية الخوادم', en: 'Server Infrastructure' }, level: 86 },
+    ],
+  },
+  {
+    category: { ar: 'الأنظمة الخلفية والواجهات', en: 'Backend & APIs' },
     icon: 'server',
     accent: 'violet',
     items: [
@@ -88,9 +120,20 @@ export const SKILLS = [
     ],
   },
   {
+    category: { ar: 'ديسكورد والأتمتة', en: 'Discord & Automation' },
+    icon: 'terminal',
+    accent: 'cyan',
+    items: [
+      { name: { ar: 'Discord.js', en: 'Discord.js' }, level: 90 },
+      { name: { ar: 'أنظمة التذاكر', en: 'Ticket Systems' }, level: 88 },
+      { name: { ar: 'لوحات التحكم', en: 'Control Panels' }, level: 85 },
+      { name: { ar: 'ربط اللعبة بديسكورد', en: 'Game ↔ Discord Bridges' }, level: 87 },
+    ],
+  },
+  {
     category: { ar: 'قواعد البيانات', en: 'Databases' },
     icon: 'database',
-    accent: 'cyan',
+    accent: 'pink',
     items: [
       { name: { ar: 'MySQL / MariaDB', en: 'MySQL / MariaDB' }, level: 88 },
       { name: { ar: 'تصميم المخططات والفهارس', en: 'Schema & Index Design' }, level: 82 },
@@ -98,133 +141,180 @@ export const SKILLS = [
       { name: { ar: 'الترحيلات', en: 'Migrations' }, level: 76 },
     ],
   },
-  {
-    category: { ar: 'منظومة فايف إم', en: 'FiveM Ecosystem' },
-    icon: 'gamepad',
-    accent: 'pink',
-    items: [
-      { name: { ar: 'برمجة Lua', en: 'Lua Scripting' }, level: 90 },
-      { name: { ar: 'بنية الخوادم', en: 'Server Infrastructure' }, level: 85 },
-      { name: { ar: 'هندسة مكافحة الغش', en: 'Anti-Cheat Engineering' }, level: 83 },
-      { name: { ar: 'تحسين أداء الموارد', en: 'Resource Optimization' }, level: 87 },
-    ],
-  },
-  {
-    category: { ar: 'الواجهات الأمامية والأدوات', en: 'Frontend & Tooling' },
-    icon: 'terminal',
-    accent: 'amber',
-    items: [
-      { name: { ar: 'EJS / HTML / CSS', en: 'EJS / HTML / CSS' }, level: 86 },
-      { name: { ar: 'Git / GitHub', en: 'Git / GitHub' }, level: 84 },
-      { name: { ar: 'Linux / PM2', en: 'Linux / PM2' }, level: 86 },
-      { name: { ar: 'Docker', en: 'Docker' }, level: 74 },
-    ],
-  },
 ];
 
 /* ============================ PROJECTS ============================ */
 
 /** مفاتيح ثابتة — تُترجم عبر FILTER_LABELS في i18n.js */
-export const PROJECT_FILTERS = ['All', 'API', 'FiveM', 'Discord', 'Security', 'Tooling'];
+export const PROJECT_FILTERS = ['All', 'FiveM', 'Discord', 'Web', 'Security'];
 
+/**
+ * المشاريع الحقيقية المنشورة في CodeHub Studio.
+ * owner: يطابق initials العضو — تُعرض نسبة العمل تلقائياً.
+ */
 export const PROJECTS = [
   {
-    title: { ar: 'CoreMind', en: 'CoreMind' },
-    tags: ['FiveM', 'Security'],
+    title: { ar: 'CoreMind — نظام القطاعات', en: 'CoreMind — Sector System' },
+    tags: ['Discord', 'Web'],
     accent: 'violet',
     year: '2026',
+    owner: 'MN',
+    image: 'assets/img/projects/coremind-sectors.webp',
     summary: {
-      ar: 'مورد متكامل ومخصّص بالكامل لخوادم فايف إم، مبني من الصفر مع طبقة حماية وتحكّم كاملة في دورة حياة الموارد.',
-      en: 'A fully custom, all-in-one FiveM resource built from scratch, with a protection layer and complete control over the resource lifecycle.',
+      ar: 'نظام الإدارة المتكامل لسيرفرات فايف إم داخل ديسكورد: لوحة موحّدة لإدارة الأعضاء والتقارير والتوظيف والإجازات، مع نظام صلاحيات يمنع الرتبة الأقل من التحكم بالأعلى وسجل تفصيلي لكل عملية.',
+      en: 'A complete management system for FiveM servers inside Discord: one panel for members, reports, hiring, and leave, with a permission model that stops lower ranks acting on higher ones and logs every decision.',
     },
-    stack: ['JavaScript', 'Lua', 'MySQL'],
-    links: { repo: null },
+    stack: ['Node.js', 'Discord.js', 'MySQL'],
+    links: { discord: 'https://discord.gg/5cc' },
     featured: true,
   },
   {
-    title: { ar: 'نظام تراخيص كود هَب', en: 'CodeHub Licensing' },
-    tags: ['API', 'Security'],
+    title: { ar: 'نظام العصابات والاحتلال', en: 'Gang & Territory System' },
+    tags: ['FiveM'],
     accent: 'pink',
     year: '2026',
+    owner: 'YB',
+    image: 'assets/img/projects/gang-system.webp',
     summary: {
-      ar: 'نظام الربط والتراخيص الخاص بـ CodeHub: إصدار المفاتيح وربطها بالأجهزة وسحبها، مع تحقّق مستمر من صلاحية النسخ.',
-      en: 'The licensing and linking system behind CodeHub: key issuance, hardware binding, revocation, and continuous validation of deployed copies.',
+      ar: 'نظام عصابات متكامل لـ ESX: إنشاء العصابات وإدارة الأعضاء والرتب، مع آلية احتلال مناطق وصراع على النفوذ بين العصابات.',
+      en: 'A full ESX gang system: creation, member and rank management, plus territory capture and ongoing conflict between rival gangs.',
+    },
+    stack: ['Lua', 'ESX', 'MySQL'],
+    links: { discord: 'https://discord.gg/5cc' },
+    featured: true,
+  },
+  {
+    title: { ar: 'نظام متجر العملات', en: 'Coin Store System' },
+    tags: ['FiveM'],
+    accent: 'amber',
+    year: '2026',
+    owner: 'YB',
+    image: 'assets/img/projects/coin-store.webp',
+    summary: {
+      ar: 'متجر عملات داخل اللعبة يتيح للاعبين شراء العناصر والمزايا بعملة خاصة، مع لوحة تحكم كاملة بالأسعار والمخزون.',
+      en: 'An in-game coin store letting players buy items and perks with a dedicated currency, backed by full admin control over pricing and stock.',
+    },
+    stack: ['Lua', 'ESX', 'MySQL'],
+    links: { discord: 'https://discord.gg/5cc' },
+  },
+  {
+    title: { ar: 'نظام ملصقات السيارات', en: 'Car Sticker System' },
+    tags: ['FiveM'],
+    accent: 'cyan',
+    year: '2026',
+    owner: 'YB',
+    image: 'assets/img/projects/car-stickers.webp',
+    summary: {
+      ar: 'نظام يمكّن اللاعبين من إضافة ملصقات مخصّصة على مركباتهم والتحكّم بموضعها وحجمها، مع حفظ التصميم على المركبة.',
+      en: 'Lets players apply custom stickers to their vehicles with control over placement and scale, persisting the design on the vehicle.',
+    },
+    stack: ['Lua', 'ESX'],
+    links: { discord: 'https://discord.gg/5cc' },
+  },
+  {
+    title: { ar: 'صانع السرقات', en: 'Advanced Robbery System' },
+    tags: ['FiveM'],
+    accent: 'pink',
+    year: '2026',
+    owner: 'YB',
+    summary: {
+      ar: 'نظام سرقات متقدّم يسمح ببناء عمليات سرقة كاملة وتخصيصها: المواقع، المراحل، المكافآت، وردّ فعل الشرطة.',
+      en: 'An advanced robbery framework for building and customising complete heists: locations, stages, rewards, and police response.',
+    },
+    stack: ['Lua', 'ESX', 'MySQL'],
+    links: { video: 'https://youtu.be/z7QbndY6rRU', discord: 'https://discord.gg/5cc' },
+    featured: true,
+  },
+  {
+    title: { ar: 'نظام البيوت والعقارات', en: 'Housing & Real Estate' },
+    tags: ['FiveM'],
+    accent: 'lime',
+    year: '2026',
+    owner: 'YB',
+    summary: {
+      ar: 'نظام يجمع البيوت والعقارات والفنادق في حزمة واحدة: شراء وبيع وتأجير وإدارة الممتلكات داخل اللعبة.',
+      en: 'Houses, real estate, and hotels in a single package: buying, selling, renting, and managing property in-game.',
+    },
+    stack: ['Lua', 'ESX', 'MySQL'],
+    links: { discord: 'https://discord.gg/5cc' },
+  },
+  {
+    title: { ar: 'نظام مكافآت اللعب والمهام', en: 'Rewards & Missions System' },
+    tags: ['FiveM'],
+    accent: 'amber',
+    year: '2026',
+    owner: 'YB',
+    summary: {
+      ar: 'نظام مهام ومكافآت مرن: تنشئ مهام يومية أو أسبوعية وتربطها بأي نشاط داخل السيرفر دون خبرة برمجية تُذكر.',
+      en: 'A flexible missions and rewards engine: define daily or weekly objectives and bind them to any in-server activity with almost no coding.',
+    },
+    stack: ['Lua', 'ESX', 'MySQL'],
+    links: { discord: 'https://discord.gg/5cc' },
+  },
+  {
+    title: { ar: 'نظام تبديل اللوحات', en: 'Plate Swap System' },
+    tags: ['FiveM'],
+    accent: 'cyan',
+    year: '2026',
+    owner: 'YB',
+    summary: {
+      ar: 'سكربت يتيح تبديل لوحات المركبات داخل اللعبة، مفيد لسيناريوهات التخفّي والهروب وأدوار العصابات.',
+      en: 'Swaps vehicle plates in-game — useful for disguise, escape, and gang roleplay scenarios.',
+    },
+    stack: ['Lua', 'ESX'],
+    links: { discord: 'https://discord.gg/5cc' },
+  },
+  {
+    title: { ar: 'صلاتك', en: 'Salatak — Prayer Times' },
+    tags: ['FiveM'],
+    accent: 'lime',
+    year: '2026',
+    owner: 'YB',
+    summary: {
+      ar: 'سكربت مجاني ومفتوح المصدر بالكامل يعرض أوقات الصلاة داخل السيرفر — متاح للتعديل والاستخدام دون أي مقابل.',
+      en: 'A fully free and open-source script that surfaces prayer times in-server — free to modify and use, no purchase required.',
+    },
+    stack: ['Lua', 'ESX'],
+    links: { discord: 'https://discord.gg/5cc' },
+  },
+  {
+    title: { ar: 'بوت ديسكورد حسب الطلب', en: 'Custom Discord Bots' },
+    tags: ['Discord'],
+    accent: 'violet',
+    year: '2026',
+    owner: 'MN',
+    summary: {
+      ar: 'خدمة بناء بوتات ديسكورد مخصّصة: أنظمة تذاكر، ربط الرتب، أتمتة الإدارة، ولوحات تحكم مرتبطة بالسيرفر.',
+      en: 'Custom Discord bot development: ticket systems, role syncing, moderation automation, and control panels wired into the game server.',
+    },
+    stack: ['Node.js', 'Discord.js', 'MySQL'],
+    links: { discord: 'https://discord.gg/5cc' },
+  },
+  {
+    title: { ar: 'نظام التراخيص', en: 'Licensing System' },
+    tags: ['Security', 'Web'],
+    accent: 'pink',
+    year: '2026',
+    owner: 'MN',
+    summary: {
+      ar: 'نظام ربط وتراخيص يحمي السكربتات الموزّعة: إصدار المفاتيح وربطها بالسيرفر وسحبها، مع تحقّق مستمر من صلاحية النسخ.',
+      en: 'A licensing layer protecting distributed scripts: key issuance, server binding, revocation, and continuous validation of deployed copies.',
     },
     stack: ['Node.js', 'MySQL', 'JWT'],
     links: { repo: 'https://github.com/vndel/codehub-licenses' },
-    featured: true,
   },
   {
-    title: { ar: 'ULG Link', en: 'ULG Link' },
-    tags: ['API', 'FiveM'],
+    title: { ar: 'إنشاء المواقع المخصّصة', en: 'Custom Web Development' },
+    tags: ['Web'],
     accent: 'cyan',
     year: '2026',
+    owner: 'MN',
     summary: {
-      ar: 'نظام ربط متكامل لخادم ULG يجمع بين حسابات اللاعبين وديسكورد والخادم في هوية واحدة موحّدة.',
-      en: 'A complete linking system for the ULG server, unifying player accounts, Discord identities, and in-game data under one identity.',
-    },
-    stack: ['JavaScript', 'Node.js', 'MySQL'],
-    links: { repo: null },
-  },
-  {
-    title: { ar: 'ULG Tickets', en: 'ULG Tickets' },
-    tags: ['Discord', 'Tooling'],
-    accent: 'amber',
-    year: '2026',
-    summary: {
-      ar: 'بوت ديسكورد لإدارة التذاكر: فتح وإغلاق وأرشفة تلقائية، مع صلاحيات دقيقة لفريق الإدارة وسجلّ كامل للمحادثات.',
-      en: 'A Discord ticket-management bot: open, close, and auto-archive, with fine-grained staff permissions and full conversation transcripts.',
-    },
-    stack: ['JavaScript', 'Discord.js'],
-    links: { repo: null },
-  },
-  {
-    title: { ar: 'موقع كود هَب', en: 'CodeHub Website' },
-    tags: ['API', 'Tooling'],
-    accent: 'lime',
-    year: '2026',
-    summary: {
-      ar: 'المنصّة الرئيسية لـ CodeHub: واجهة أمامية بـ EJS وواجهة برمجية خلفية تدير المستخدمين والمنتجات والاشتراكات.',
-      en: 'The main CodeHub platform: an EJS frontend backed by an API that manages users, products, and subscriptions.',
+      ar: 'خدمة بناء مواقع ومتاجر مخصّصة لمطوّري ومالكي سيرفرات فايف إم، مع لوحات إدارة ومزامنة مع اللعبة.',
+      en: 'Custom websites and storefronts for FiveM server owners and developers, with admin panels and in-game synchronisation.',
     },
     stack: ['Node.js', 'EJS', 'Express', 'MySQL'],
-    links: { repo: null },
-  },
-  {
-    title: { ar: 'DBackup', en: 'DBackup' },
-    tags: ['Tooling', 'Security'],
-    accent: 'violet',
-    year: '2026',
-    summary: {
-      ar: 'أداة نسخ احتياطي مكتوبة بـ TypeScript، تؤتمت حفظ قواعد البيانات والملفات الحسّاسة وفق جدولة قابلة للضبط.',
-      en: 'A TypeScript backup utility that automates scheduled snapshots of databases and sensitive files.',
-    },
-    stack: ['TypeScript', 'Node.js', 'Docker'],
-    links: { repo: null },
-  },
-  {
-    title: { ar: 'Discord Components', en: 'Discord Components' },
-    tags: ['Discord', 'Tooling'],
-    accent: 'cyan',
-    year: '2023',
-    summary: {
-      ar: 'مكوّنات ويب مفتوحة المصدر تحاكي شكل رسائل ديسكورد بدقة، مفيدة للتوثيق وعرض الأمثلة داخل المواقع.',
-      en: 'Open-source web components that faithfully replicate Discord message UI — useful for documentation and embedded examples.',
-    },
-    stack: ['TypeScript', 'Web Components'],
-    links: { repo: 'https://github.com/vndel/discord-components' },
-  },
-  {
-    title: { ar: 'Pterodactyl Eggs', en: 'Pterodactyl Eggs' },
-    tags: ['Tooling'],
-    accent: 'amber',
-    year: '2022',
-    summary: {
-      ar: 'مجموعة ملفات خدمة جاهزة للوحة Pterodactyl تختصر إعداد الخوادم إلى خطوات قليلة.',
-      en: 'A collection of ready-made service eggs for the Pterodactyl panel that reduce server setup to a few steps.',
-    },
-    stack: ['Docker', 'JSON'],
-    links: { repo: 'https://github.com/vndel/eggs' },
+    links: { discord: 'https://discord.gg/5cc' },
   },
 ];
 

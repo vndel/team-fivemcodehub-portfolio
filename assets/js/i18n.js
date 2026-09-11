@@ -58,6 +58,14 @@ export const T = {
     'team.stack': 'الأدوات',
     'team.years': 'سنة',
     'team.copied': 'تم نسخ معرّف ديسكورد',
+    'team.copyId': 'نسخ معرّف ديسكورد',
+    'team.projects': 'مشروع',
+    'projects.video': 'شاهد الفيديو',
+    'projects.details': 'التفاصيل',
+    'contact.discord': 'سيرفر ديسكورد',
+    'guild.members': 'عضو',
+    'guild.online': 'متصل',
+    'guild.join': 'انضم للسيرفر',
 
     /* المهارات */
     'skills.kicker': '٠٣ — المهارات',
@@ -141,6 +149,14 @@ export const T = {
     'team.stack': 'Stack',
     'team.years': 'yrs',
     'team.copied': 'Discord ID copied',
+    'team.copyId': 'Copy Discord ID',
+    'team.projects': 'projects',
+    'projects.video': 'Watch video',
+    'projects.details': 'Details',
+    'contact.discord': 'Discord server',
+    'guild.members': 'members',
+    'guild.online': 'online',
+    'guild.join': 'Join the server',
 
     'skills.kicker': '03 — Skills',
     'skills.title': 'What we actually use.',
@@ -179,8 +195,8 @@ export const T = {
 
 /** الفلاتر مترجمة: المفتاح ثابت (للمنطق) والقيمة معروضة */
 export const FILTER_LABELS = {
-  ar: { All: 'الكل', API: 'واجهات برمجية', FiveM: 'فايف إم', Security: 'الحماية', Tooling: 'أدوات', Discord: 'ديسكورد' },
-  en: { All: 'All', API: 'API', FiveM: 'FiveM', Security: 'Security', Tooling: 'Tooling', Discord: 'Discord' },
+  ar: { All: 'الكل', FiveM: 'فايف إم', Discord: 'ديسكورد', Web: 'ويب', Security: 'الحماية' },
+  en: { All: 'All', FiveM: 'FiveM', Discord: 'Discord', Web: 'Web', Security: 'Security' },
 };
 
 /** الأرقام العربية الهندية للعرض في الواجهة العربية */

@@ -7,6 +7,18 @@
 import { SITE, HERO_ROLES, STATS, TEAM, SKILLS, PROJECTS, PROJECT_FILTERS, PROCESS } from './data.js';
 import { T, LANGS, DEFAULT_LANG, FILTER_LABELS, localizeDigits } from './i18n.js';
 
+/* Discord data produced by `npm run seed`; empty until the first run. */
+let DISCORD = { users: {}, guild: null };
+
+async function loadDiscord() {
+  try {
+    const res = await fetch('assets/data/discord.json', { cache: 'no-cache' });
+    if (res.ok) DISCORD = await res.json();
+  } catch {
+    // Seed not run yet, or offline — cards fall back to initials.
+  }
+}
+
 const $  = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -39,6 +51,130 @@ const tx = (val) => (val && typeof val === 'object' && !Array.isArray(val) ? val
 /** Localize digits for display (Arabic-Indic in AR). */
 const num = (v) => localizeDigits(v, LANG);
 
+/** Thousands-grouped number, localized (١٬١٦٣ / 1,163). */
+const group = (v) =>
+  LANG === 'ar'
+    ? localizeDigits(Number(v).toLocaleString('en-US'), 'ar').replace(/,/g, '٬')
+    : Number(v).toLocaleString('en-US');
+
+/* ────────────────────────── COLOUR UTILS ─────────────────────────── */
+
+/**
+ * Discord accent colours are often near-black, which would make the halo
+ * invisible on a dark page. When the seed marks a colour unusable we sample
+ * the avatar instead and pick its most saturated dominant tone.
+ */
+const paletteCache = new Map();
+
+function dominantColour(img) {
+  if (paletteCache.has(img.src)) return paletteCache.get(img.src);
+
+  try {
+    const size = 48;
+    const cv = document.createElement('canvas');
+    cv.width = cv.height = size;
+    const ctx = cv.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(img, 0, 0, size, size);
+
+    const { data } = ctx.getImageData(0, 0, size, size);
+    const buckets = new Map();
+
+    for (let i = 0; i < data.length; i += 4) {
+      const [r, g, b, a] = [data[i], data[i + 1], data[i + 2], data[i + 3]];
+      if (a < 200) continue;
+
+      const mx = Math.max(r, g, b);
+      const mn = Math.min(r, g, b);
+      const lum = (r + g + b) / 3;
+      const sat = mx === 0 ? 0 : (mx - mn) / mx;
+
+      // Skip near-black, near-white, and washed-out pixels.
+      if (lum < 34 || lum > 232 || sat < 0.24) continue;
+
+      // Group by hue so shades of one colour reinforce each other instead
+      // of splitting into competing buckets.
+      const mean = (r + g + b) / 3;
+      let hue = 0;
+      const delta = mx - mn;
+      if (delta) {
+        if (mx === r) hue = ((g - b) / delta) % 6;
+        else if (mx === g) hue = (b - r) / delta + 2;
+        else hue = (r - g) / delta + 4;
+        hue = (hue * 60 + 360) % 360;
+      }
+
+      const key = Math.round(hue / 24);
+      const bucket = buckets.get(key) || { n: 0, r: 0, g: 0, b: 0, sat: 0 };
+      bucket.n++; bucket.r += r; bucket.g += g; bucket.b += b;
+      bucket.sat += sat;
+      buckets.set(key, bucket);
+    }
+
+    if (!buckets.size) return null;
+
+    // Pick the dominant hue. Saturation only breaks near-ties, so the colour
+    // a human would name stays the winner.
+    const best = [...buckets.values()].sort(
+      (a, b) => b.n - a.n || b.sat / b.n - a.sat / a.n
+    )[0];
+    const rgb = [best.r, best.g, best.b].map((c) => Math.round(c / best.n));
+
+    const hex = '#' + vivid(rgb).map((c) => c.toString(16).padStart(2, '0')).join('');
+    paletteCache.set(img.src, hex);
+    return hex;
+  } catch {
+    // Tainted canvas (CDN without CORS) — keep the authored accent.
+    return null;
+  }
+}
+
+/**
+ * Raise a sampled colour to a brightness and saturation that reads as an
+ * accent on a dark page. Avatars are often dim, and a muddy #1a2a31 halo is
+ * indistinguishable from the background.
+ */
+function vivid([r, g, b]) {
+  // RGB → HSL
+  const [r1, g1, b1] = [r / 255, g / 255, b / 255];
+  const mx = Math.max(r1, g1, b1), mn = Math.min(r1, g1, b1);
+  const l = (mx + mn) / 2;
+  const d = mx - mn;
+
+  let h = 0;
+  let s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
+
+  if (d !== 0) {
+    if (mx === r1) h = ((g1 - b1) / d) % 6;
+    else if (mx === g1) h = (b1 - r1) / d + 2;
+    else h = (r1 - g1) / d + 4;
+    h *= 60;
+    if (h < 0) h += 360;
+  }
+
+  // Clamp into a band that stays vivid without blowing out.
+  s = Math.min(Math.max(s, 0.62), 0.92);
+  const l2 = Math.min(Math.max(l, 0.52), 0.68);
+
+  // HSL → RGB
+  const c = (1 - Math.abs(2 * l2 - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l2 - c / 2;
+
+  const seg = [
+    [c, x, 0], [x, c, 0], [0, c, x],
+    [0, x, c], [x, 0, c], [c, 0, x],
+  ][Math.floor(h / 60) % 6];
+
+  return seg.map((v) => Math.round((v + m) * 255));
+}
+
+/** Paint the halo, ring, and role colour for one card. */
+function applyAccent(card, hex) {
+  if (!hex) return;
+  card.style.setProperty('--accent', hex);
+  card.classList.add('has-live-accent');
+}
+
 /* ───────────────────────────── ICONS ───────────────────────────── */
 
 const ICONS = {
@@ -51,6 +187,7 @@ const ICONS = {
   discord:  '<svg viewBox="0 0 20 20" fill="none"><path d="M15.6 5.1A13 13 0 0 0 12.4 4l-.2.4a12 12 0 0 1 2.8 1.1 11 11 0 0 0-9.9 0A12 12 0 0 1 7.9 4.4L7.6 4a13 13 0 0 0-3.2 1.1C2.3 8.3 1.8 11.4 2 14.4a13 13 0 0 0 4 2 9.6 9.6 0 0 0 .8-1.4 8.4 8.4 0 0 1-1.3-.6l.3-.3a9.3 9.3 0 0 0 8 0l.3.3a8.4 8.4 0 0 1-1.3.6c.2.5.5 1 .8 1.4a13 13 0 0 0 4-2c.3-3.5-.5-6.6-2-9.3ZM7.4 12.6c-.8 0-1.4-.7-1.4-1.6s.6-1.6 1.4-1.6 1.4.7 1.4 1.6-.6 1.6-1.4 1.6Zm5.2 0c-.8 0-1.4-.7-1.4-1.6s.6-1.6 1.4-1.6 1.4.7 1.4 1.6-.6 1.6-1.4 1.6Z" fill="currentColor"/></svg>',
   mail:     '<svg viewBox="0 0 20 20" fill="none"><rect x="2.5" y="4" width="15" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="m3 6 7 5 7-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
   link:     '<svg viewBox="0 0 20 20" fill="none"><path d="M11.5 4.5h4v4M15.5 4.5 9 11M15 11.5v3a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 14.5v-8A1.5 1.5 0 0 1 5.5 5h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  play:     '<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.6" stroke="currentColor" stroke-width="1.5"/><path d="M8.3 7.2v5.6l4.4-2.8-4.4-2.8Z" fill="currentColor"/></svg>',
   copy:     '<svg viewBox="0 0 20 20" fill="none"><rect x="7" y="7" width="9.5" height="9.5" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M13 4.5A1.5 1.5 0 0 0 11.5 3h-6A2.5 2.5 0 0 0 3 5.5v6A1.5 1.5 0 0 0 4.5 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
   check:    '<svg viewBox="0 0 20 20" fill="none"><path d="m4.5 10.5 3.5 3.5 7.5-8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   globe:    '<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.4" stroke="currentColor" stroke-width="1.5"/><path d="M2.6 10h14.8M10 2.6a12 12 0 0 1 0 14.8 12 12 0 0 1 0-14.8Z" stroke="currentColor" stroke-width="1.5"/></svg>',
@@ -83,7 +220,7 @@ function initCounters() {
   const nodes = $$('.stat__value');
   if (!nodes.length) return;
 
-  const finish = (el) => (el.textContent = num(el.dataset.count) + num(el.dataset.suffix));
+  const finish = (el) => (el.textContent = group(el.dataset.count) + num(el.dataset.suffix));
 
   if (REDUCED) { nodes.forEach(finish); return; }
 
@@ -98,7 +235,7 @@ function initCounters() {
 
       const p = Math.min((now - start) / 1500, 1);
       const eased = 1 - Math.pow(1 - p, 3);           // easeOutCubic
-      el.textContent = num(Math.round(target * eased)) + suffix;
+      el.textContent = group(Math.round(target * eased)) + suffix;
       if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -117,17 +254,21 @@ function initCounters() {
 
 /* ────────────────────────── RENDER: TEAM ──────────────────────── */
 
-function socialLinks(s = {}, name = '') {
+function socialLinks(s = {}, name = '', d = null) {
   const out = [];
 
   if (s.github && s.github !== '#')
     out.push(`<a class="social-btn" href="${esc(s.github)}" target="_blank" rel="noopener"
                  aria-label="${esc(name)} — GitHub">${ICONS.github}</a>`);
 
-  // Discord: copy the user ID rather than link to a dead profile URL.
-  if (s.discord && s.discord !== '#')
+  // Real profile link — Discord resolves /users/<id> for everyone.
+  if (s.discord && s.discord !== '#') {
+    const url = d?.profile || `https://discord.com/users/${s.discord}`;
+    out.push(`<a class="social-btn" href="${esc(url)}" target="_blank" rel="noopener"
+                 aria-label="${esc(name)} — Discord">${ICONS.discord}</a>`);
     out.push(`<button type="button" class="social-btn social-btn--copy" data-copy="${esc(s.discord)}"
-                 aria-label="${esc(name)} — Discord">${ICONS.discord}</button>`);
+                 aria-label="${esc(t('team.copyId'))}">${ICONS.copy}</button>`);
+  }
 
   if (s.email && s.email !== '#')
     out.push(`<a class="social-btn" href="${esc(s.email)}"
@@ -142,31 +283,69 @@ function renderTeam() {
 
   host.innerHTML = TEAM.map((m, i) => {
     const name = tx(m.name);
+    const d = DISCORD.users?.[m.socials?.discord] || null;
+
     const initials =
       m.initials || name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase();
 
+    const avatar = d?.avatar || m.avatar || null;
+    const banner = d?.banner || null;
+
+    // Seeded accent wins only when it is bright enough to read as an accent.
+    const seeded = d?.accentUsable ? d.accent : null;
+
     return `
-    <article class="member reveal" data-accent="${esc(m.accent || 'violet')}" data-delay="${Math.min(i + 1, 5)}">
+    <article class="member reveal${banner ? ' has-banner' : ''}"
+             data-accent="${esc(m.accent || 'violet')}"
+             data-discord="${esc(m.socials?.discord || '')}"
+             ${seeded ? `style="--accent:${esc(seeded)}"` : ''}
+             data-delay="${Math.min(i + 1, 5)}">
+
+      <div class="member__banner" aria-hidden="true">
+        ${banner ? `<img class="member__banner-img" src="${esc(banner)}" alt="" loading="lazy">` : ''}
+        <span class="member__banner-wash"></span>
+      </div>
+
       <div class="member__top">
         <div class="member__avatar">
           ${
-            m.avatar
-              ? `<img src="${esc(m.avatar)}" alt="" loading="lazy" width="72" height="72"
-                      onerror="this.remove();this.parentNode.classList.add('is-fallback')">`
+            avatar
+              ? `<img class="member__avatar-img" src="${esc(avatar)}" alt=""
+                      loading="lazy" width="80" height="80" crossorigin="anonymous"
+                      onerror="this.closest('.member__avatar').classList.add('is-fallback')">`
               : ''
           }
           <span class="member__initials">${esc(initials)}</span>
-          ${m.lead ? `<span class="member__badge">${esc(t('team.lead'))}</span>` : ''}
+          ${
+            d?.decoration
+              ? `<img class="member__deco" src="${esc(d.decoration)}" alt="" loading="lazy" aria-hidden="true">`
+              : ''
+          }
         </div>
+
         <div class="member__ident">
           <h3 class="member__name">${esc(name)}</h3>
+          ${
+            d?.username
+              ? `<p class="member__handle" dir="ltr">
+                   @${esc(d.username)}
+                   ${d.tagBadge && d.tag
+                     ? `<span class="member__tag"><img src="${esc(d.tagBadge)}" alt="" loading="lazy">${esc(d.tag)}</span>`
+                     : ''}
+                 </p>`
+              : ''
+          }
           <p class="member__role">${esc(tx(m.role))}</p>
-          <p class="member__meta">
-            ${m.age ? `<span>${num(m.age)} ${esc(t('team.years'))}</span>` : ''}
-            ${m.location ? `<span>${esc(tx(m.location))}</span>` : ''}
-          </p>
         </div>
+
+        ${m.lead ? `<span class="member__badge">${esc(t('team.lead'))}</span>` : ''}
       </div>
+
+      <p class="member__meta">
+        ${m.age ? `<span>${num(m.age)} ${esc(t('team.years'))}</span>` : ''}
+        ${m.location ? `<span>${esc(tx(m.location))}</span>` : ''}
+        <span class="member__count" data-owner="${esc(m.initials || '')}"></span>
+      </p>
 
       <p class="member__bio">${esc(tx(m.bio))}</p>
 
@@ -180,17 +359,42 @@ function renderTeam() {
       ${
         m.stack?.length
           ? `<p class="member__section-label">${esc(t('team.stack'))}</p>
-             <div class="chips">${m.stack.map((s) => `<span class="chip">${esc(s)}</span>`).join('')}</div>`
+             <div class="chips">${m.stack.map((x) => `<span class="chip">${esc(x)}</span>`).join('')}</div>`
           : ''
       }
 
       ${
         Object.keys(m.socials || {}).length
-          ? `<div class="member__socials">${socialLinks(m.socials, name)}</div>`
+          ? `<div class="member__socials">${socialLinks(m.socials, name, d)}</div>`
           : ''
       }
     </article>`;
   }).join('');
+
+  // Show how many shipped projects each member owns.
+  $$('.member__count').forEach((el) => {
+    const n = PROJECTS.filter((p) => p.owner && p.owner === el.dataset.owner).length;
+    el.textContent = n ? `${num(n)} ${t('team.projects')}` : '';
+  });
+
+  initLiveAccents();
+}
+
+/**
+ * Derive each card's accent from its avatar once the image decodes, unless the
+ * seed already supplied a usable colour.
+ */
+function initLiveAccents() {
+  $$('.member').forEach((card) => {
+    if (card.style.getPropertyValue('--accent')) return;   // seeded colour wins
+
+    const img = $('.member__avatar-img', card);
+    if (!img) return;
+
+    const run = () => applyAccent(card, dominantColour(img));
+    if (img.complete && img.naturalWidth) run();
+    else img.addEventListener('load', run, { once: true });
+  });
 }
 
 /** Copy-to-clipboard for the Discord ID, with a visible confirmation. */
@@ -297,35 +501,61 @@ function initSkillBars() {
 /* ──────────────────────── RENDER: PROJECTS ────────────────────── */
 
 function projectCard(p, i) {
-  const repo = p.links?.repo;
+  const owner = TEAM.find((m) => m.initials === p.owner);
+  const od = owner ? DISCORD.users?.[owner.socials?.discord] : null;
+
+  const link =
+    p.links?.repo   ? { href: p.links.repo,   label: t('projects.source'),  icon: ICONS.link } :
+    p.links?.video  ? { href: p.links.video,  label: t('projects.video'),   icon: ICONS.play } :
+    p.links?.discord? { href: p.links.discord,label: t('projects.details'), icon: ICONS.discord } : null;
 
   return `
-  <article class="project reveal" data-accent="${esc(p.accent || 'violet')}"
+  <article class="project reveal${p.image ? ' has-shot' : ''}" data-accent="${esc(p.accent || 'violet')}"
            data-tags="${esc((p.tags || []).join(','))}" data-delay="${Math.min(i + 1, 5)}">
-    <header class="project__head">
-      <span class="project__icon" aria-hidden="true">${ICONS.code}</span>
-      <div class="project__meta">
-        ${p.featured ? `<span class="tag-featured">${esc(t('projects.featured'))}</span>` : ''}
-        <span class="project__year">${num(p.year)}</span>
+
+    ${
+      p.image
+        ? `<div class="project__shot">
+             <img src="${esc(p.image)}" alt="" loading="lazy" decoding="async">
+             ${p.featured ? `<span class="tag-featured">${esc(t('projects.featured'))}</span>` : ''}
+           </div>`
+        : ''
+    }
+
+    <div class="project__body">
+      <header class="project__head">
+        <span class="project__icon" aria-hidden="true">${ICONS.code}</span>
+        <div class="project__meta">
+          ${!p.image && p.featured ? `<span class="tag-featured">${esc(t('projects.featured'))}</span>` : ''}
+          <span class="project__year">${num(p.year)}</span>
+        </div>
+      </header>
+
+      <h3 class="project__title">${esc(tx(p.title))}</h3>
+      <p class="project__summary">${esc(tx(p.summary))}</p>
+
+      <div class="project__stack">
+        ${(p.stack || []).map((x) => `<span class="chip">${esc(x)}</span>`).join('')}
       </div>
-    </header>
 
-    <h3 class="project__title">${esc(tx(p.title))}</h3>
-    <p class="project__summary">${esc(tx(p.summary))}</p>
-
-    <div class="project__stack">
-      ${(p.stack || []).map((s) => `<span class="chip">${esc(s)}</span>`).join('')}
+      <footer class="project__foot">
+        ${
+          owner
+            ? `<span class="project__owner" title="${esc(tx(owner.name))}">
+                 ${od?.avatar ? `<img src="${esc(od.avatar)}" alt="" loading="lazy">` : ''}
+                 <span>${esc(tx(owner.name))}</span>
+               </span>`
+            : '<span></span>'
+        }
+        ${
+          link
+            ? `<a class="project__link" href="${esc(link.href)}" target="_blank" rel="noopener">
+                 ${esc(link.label)} ${link.icon}
+               </a>`
+            : ''
+        }
+      </footer>
     </div>
-
-    <footer class="project__foot">
-      ${
-        repo
-          ? `<a class="project__link" href="${esc(repo)}" target="_blank" rel="noopener">
-               ${esc(t('projects.source'))} ${ICONS.link}
-             </a>`
-          : `<span class="project__link project__link--muted">${esc(t('projects.private'))}</span>`
-      }
-    </footer>
   </article>`;
 }
 
@@ -372,6 +602,35 @@ function initFilters() {
       }
     });
   });
+}
+
+/* ────────────────────────── RENDER: GUILD ─────────────────────── */
+
+function renderGuild() {
+  const host = $('#guildCard');
+  const g = DISCORD.guild;
+  if (!host) return;
+
+  if (!g) { host.hidden = true; return; }
+  host.hidden = false;
+
+  host.innerHTML = `
+    <a class="guild" href="${esc(g.invite)}" target="_blank" rel="noopener">
+      <div class="guild__banner" aria-hidden="true">
+        ${g.banner || g.splash ? `<img src="${esc(g.banner || g.splash)}" alt="" loading="lazy">` : ''}
+      </div>
+      <div class="guild__body">
+        ${g.icon ? `<img class="guild__icon" src="${esc(g.icon)}" alt="" loading="lazy" width="56" height="56">` : ''}
+        <div class="guild__info">
+          <p class="guild__name">${esc(g.name)}</p>
+          <p class="guild__stats">
+            ${g.online != null ? `<span class="guild__dot guild__dot--on"></span>${group(g.online)} ${esc(t('guild.online'))}` : ''}
+            ${g.members != null ? `<span class="guild__dot"></span>${group(g.members)} ${esc(t('guild.members'))}` : ''}
+          </p>
+        </div>
+        <span class="guild__cta">${esc(t('guild.join'))}</span>
+      </div>
+    </a>`;
 }
 
 /* ───────────────────────── RENDER: PROCESS ────────────────────── */
@@ -469,6 +728,7 @@ function initLangSwitch() {
       renderSkills();
       renderProjects();
       renderProcess();
+      renderGuild();
 
       // Observers were bound to nodes that no longer exist.
       initReveal();
@@ -644,7 +904,8 @@ function initForm() {
 
 /* ─────────────────────────────  BOOT  ─────────────────────────── */
 
-function init() {
+async function init() {
+  await loadDiscord();
   applyStatic();
 
   // content first — reveal/observers must see the finished DOM
@@ -653,6 +914,7 @@ function init() {
   renderSkills();
   renderProjects();
   renderProcess();
+  renderGuild();
 
   initNav();
   initScrollSpy();
