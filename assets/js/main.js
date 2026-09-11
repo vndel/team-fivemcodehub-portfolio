@@ -301,9 +301,10 @@ function renderTeam() {
              ${seeded ? `style="--accent:${esc(seeded)}"` : ''}
              data-delay="${Math.min(i + 1, 5)}">
 
-      <div class="member__banner" aria-hidden="true">
+      <div class="member__banner">
         ${banner ? `<img class="member__banner-img" src="${esc(banner)}" alt="" loading="lazy">` : ''}
-        <span class="member__banner-wash"></span>
+        <span class="member__banner-wash" aria-hidden="true"></span>
+        ${m.lead ? `<span class="member__badge">${esc(t('team.lead'))}</span>` : ''}
       </div>
 
       <div class="member__top">
@@ -338,7 +339,6 @@ function renderTeam() {
           <p class="member__role">${esc(tx(m.role))}</p>
         </div>
 
-        ${m.lead ? `<span class="member__badge">${esc(t('team.lead'))}</span>` : ''}
       </div>
 
       <p class="member__meta">
