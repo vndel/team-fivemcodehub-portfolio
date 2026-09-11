@@ -53,7 +53,6 @@ export const TEAM = [
     socials: {
       discord: '548192595403210752',
     },
-    lead: true,
   },
   {
     name: { ar: 'محمد نفيس', en: 'Mohammed Nafees' },
@@ -76,6 +75,7 @@ export const TEAM = [
       discord: '398520151236149249',
       email: 'mailto:777m@vndel.com',
     },
+    lead: true,
   },
   /*
    * ── قالب لإضافة عضو جديد ─────────────────────────────────────
